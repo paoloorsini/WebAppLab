@@ -134,7 +134,6 @@ def add_data_category():
     query = "INSERT INTO categories(category_name) VALUES(%s)"
     execute_query2(query, (nome,))
     # Restituisci una risposta
-
     return f"Il nome {nome} è stato aggiunto alle categorie."
 
 
