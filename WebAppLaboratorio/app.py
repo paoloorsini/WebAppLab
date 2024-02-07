@@ -134,10 +134,13 @@ def add_data_category():
     query = "INSERT INTO categories(category_name) VALUES(%s)"
     execute_query2(query, (nome,))
     # Restituisci una risposta
+
     return f"Il nome {nome} è stato aggiunto alle categorie."
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
 
 # aggiungere nella home page un bottone aggiungi film che se cliccato mi manda in una nuova pagina web con un form per inserire il film
