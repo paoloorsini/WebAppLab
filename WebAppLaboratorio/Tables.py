@@ -19,6 +19,17 @@ def create_tables(connection):
     create_loans = '''
     CREATE TABLE loans (
     id_loan int PRIMARY KEY AUTO_INCREMENT
-    
+    id_books INT,
+    id_user INT,
     );
 '''
+    alter_loans = '''
+    ALTER TABLE directors_participation
+    ADD FOREIGN KEY (id_books) REFERENCES books(id_books) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE ON UPDATE CASCADE;
+'''
+
+    execute_query(connection, create_books)
+    execute_query(connection, create_users)
+    execute_query(connection, create_loans)
+    execute_query(connection, alter_loans)
