@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-
+import csv
 
 def create_server_connection(host_name, user_name, user_password):
     connection = None
@@ -83,3 +83,46 @@ def execute_many(connection, query, sequence):
         print("Execute many successful")
     except Error as err:
         print(f"Error: '{err}'")
+
+
+def execute_query_place(connection, query, place):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query, place)
+        connection.commit()
+        # print("Query successful")
+    except Error as err:
+        print(f"Error: '{err}'")
+        print(query)
+
+
+def inserisci_dati_utente(connection,pw,db):
+    with open("utenti.csv", "r", encoding="utf_8") as f:
+        lettore = csv.reader(f)
+        next(lettore)
+        lettore = list(lettore)
+        for elem in lettore:
+            q = """INSERT INTO users(name, age) VALUES(%s,%s);"""
+            place = (elem[0], elem[1])
+            execute_query_place(connection, q, place)
+
+
+def inserisci_dati_libri(connection,pw,db):
+    with open("libri.csv", "r", encoding="utf_8") as f:
+        lettore = csv.reader(f)
+        next(lettore)
+        lettore = list(lettore)
+        for elem in lettore:
+            q = """INSERT INTO books(title,author,year) VALUES(%s,%s,%s);"""
+            place = (elem[0], elem[1], elem[2])
+            execute_query_place(connection, q, place)
+
+def inserisci_dati_prestiti(connection,pw,db):
+    with open("prestiti.csv", "r", encoding="utf_8") as f:
+        lettore = csv.reader(f)
+        next(lettore)
+        lettore = list(lettore)
+        for elem in lettore:
+            q = """INSERT INTO loans(id_books, id_user, status) VALUES(%s,%s,%s);"""
+            place = (elem[2], elem[1], elem[3])
+            execute_query_place(connection, q, place)
