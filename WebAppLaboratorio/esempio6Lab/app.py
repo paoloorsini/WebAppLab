@@ -43,16 +43,16 @@ def execute_query2(query, params=None):
 
 
 # Rotte dell'API
-@app.route('/data/categories', methods=['GET'])
-def get_data_categories():
-    query = "SELECT * FROM categories"
+@app.route('/data/authors', methods=['GET'])
+def get_data_authors():
+    query = "SELECT * FROM authors"
     items = execute_query(query)
     return items
     # return jsonify({'items': items})
 
-@app.route('/data/shows', methods=['GET'])
-def get_data_shows():
-    query = "SELECT * FROM shows"
+@app.route('/data/books', methods=['GET'])
+def get_data_books():
+    query = "SELECT * FROM books"
     items = execute_query(query)
     return items
 
@@ -88,15 +88,15 @@ def get_shows_by_category_id(category_id):
     return jsonify({'shows': shows})
     # return shows
 
-@app.route('/movies')
-def show_movies():
-    movies = get_data_shows()
-    return render_template('movies.html', movies=movies)
+@app.route('/books')
+def show_books():
+    movies = get_data_books()
+    return render_template('movies.html', movies=books)
 
-@app.route('/categories')
-def show_categories():
-    categories = get_data_categories()
-    return render_template('categories.html', categories=categories)
+@app.route('/authors')
+def show_authors():
+    categories = get_data_authors()
+    return render_template('categories.html', categories=authors)
 
 @app.route('/movies/category/<int:category_id>')
 def show_movies_by_category(category_id):
