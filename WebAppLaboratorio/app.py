@@ -1,7 +1,30 @@
 import json
-from create_DB import *
 from flask import Flask, jsonify, render_template, request
 import mysql.connector
+
+db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': '',
+    'database': 'libreria'
+}
+
+# Funzione per creare una connessione al database
+def create_db_connection():
+    return mysql.connector.connect(**db_config)
+
+# Funzione per eseguire query SQL
+def execute_query(query, params=None):
+    connection = create_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    if params:
+        cursor.execute(query, params)
+    else:
+        cursor.execute(query)
+    result = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return result
 
 app = Flask(__name__)
 
@@ -15,8 +38,8 @@ def get_data_author():
 
 @app.route('/data/books', methods=['GET'])
 def get_data_books():
-    query = "SELECT * FROM books"
-    items = execute_query(connection,query)
+    query = "SELECT title FROM books"
+    items = execute_query(query)
     return items
 
 #singolo show in base all'id passato
@@ -56,10 +79,25 @@ def show_books():
     books = get_data_books()
     return render_template('books.html', books=books)
 
-@app.route('/author')
-def show_author():
-    author = get_data_author()
-    return render_template('author.html', author=author)
+@app.route('/loans')
+def show_loans():
+    loans = get_data_loans()
+    return render_template('loans.html', loans=loans)
+
+@app.route('/data/loans', methods=['GET'])
+def get_data_loans():
+    query = """SELECT loans.id_loan, books.title, users.name, loans.status FROM `loans` 
+            JOIN books ON books.id_books = loans.id_books
+            JOIN users ON users.id_user=loans.id_user;"""
+    items = execute_query(query)
+    return items
+
+
+
+# @app.route('/author')
+# def show_author():
+#     author = get_data_author()
+#     return render_template('author.html', author=author)
 
 @app.route('/movies/category/<int:category_id>')
 def show_movies_by_category(category_id):

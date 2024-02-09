@@ -51,8 +51,8 @@ def get_data_authors():
     # return jsonify({'items': items})
 
 @app.route('/data/books', methods=['GET'])
-def get_data_books():
-    query = "SELECT * FROM books"
+def get_data_movies():
+    query = "SELECT * FROM movies"
     items = execute_query(query)
     return items
 
@@ -88,9 +88,9 @@ def get_shows_by_category_id(category_id):
     return jsonify({'shows': shows})
     # return shows
 
-@app.route('/books')
+@app.route('/movies')
 def show_books():
-    movies = get_data_books()
+    movies = get_data_movies()
     return render_template('movies.html', movies=books)
 
 @app.route('/authors')
