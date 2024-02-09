@@ -8,18 +8,29 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 text-center">
         <h1>Tutti i Prestiti</h1>
     </div>
-    {% for elem in loans %}
-    <div class="card" style="width: 18rem;">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">{{elem.name}}</li>
-    <li class="list-group-item">{{elem.title}}</li>
-    <li class="list-group-item">{{elem.status}}</li>
-  </ul>
-</div>
-    {% endfor %}
+    <table class="table table-dark table-striped">
+  <thead>
+    <tr>
+        <th scope="col">#</th>
+      <th scope="col">Book</th>
+      <th scope="col">User</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        {% for elem in loans %}
+      <td>{{elem.id_loan}}</td>
+      <td>{{elem.title}}</td>
+      <td>{{elem.name}}</td>
+      <td>{{elem.status}}</td>
+    </tr>
+        {% endfor %}
+  </tbody>
+</table>
     <!-- Includi Bootstrap JS (opzionale) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
@@ -28,3 +39,22 @@
 
 
 
+
+
+
+
+<!--{% for elem in loans %}-->
+<!--    <div class="container text-center">-->
+<!--  <div class="row">-->
+<!--    <div class="col">-->
+<!--        {{elem.title}}-->
+<!--    </div>-->
+<!--    <div class="col">-->
+<!--      {{elem.name}}-->
+<!--    </div>-->
+<!--    <div class="col">-->
+<!--      {{elem.status}}-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--    {% endfor %}-->
