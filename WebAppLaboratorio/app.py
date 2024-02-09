@@ -1,59 +1,22 @@
 import json
-
+from create_DB import *
 from flask import Flask, jsonify, render_template, request
 import mysql.connector
 
 app = Flask(__name__)
 
-# Configura la connessione al database MySQL
-db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '',
-    'database': 'testdb'
-}
-
-# Funzione per creare una connessione al database
-def create_db_connection():
-    return mysql.connector.connect(**db_config)
-
-# Funzione per eseguire query SQL
-def execute_query(query, params=None):
-    connection = create_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    if params:
-        cursor.execute(query, params)
-    else:
-        cursor.execute(query)
-    result = cursor.fetchall()
-    cursor.close()
-    connection.close()
-    return result
-
-def execute_query2(query, params=None):
-    connection = create_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    if params:
-        cursor.execute(query, params)
-    else:
-        cursor.execute(query)
-
-    cursor.close()
-    connection.close()
-
-
 # Rotte dell'API
-@app.route('/data/categories', methods=['GET'])
-def get_data_categories():
-    query = "SELECT * FROM categories"
+@app.route('/data/author', methods=['GET'])
+def get_data_author():
+    query = "SELECT author FROM books"
     items = execute_query(query)
     return items
     # return jsonify({'items': items})
 
-@app.route('/data/shows', methods=['GET'])
-def get_data_shows():
-    query = "SELECT * FROM shows"
-    items = execute_query(query)
+@app.route('/data/books', methods=['GET'])
+def get_data_books():
+    query = "SELECT * FROM books"
+    items = execute_query(connection,query)
     return items
 
 #singolo show in base all'id passato
@@ -88,15 +51,15 @@ def get_shows_by_category_id(category_id):
     return jsonify({'shows': shows})
     # return shows
 
-@app.route('/movies')
-def show_movies():
-    movies = get_data_shows()
-    return render_template('movies.html', movies=movies)
+@app.route('/books')
+def show_books():
+    books = get_data_books()
+    return render_template('books.html', books=books)
 
-@app.route('/categories')
-def show_categories():
-    categories = get_data_categories()
-    return render_template('categories.html', categories=categories)
+@app.route('/author')
+def show_author():
+    author = get_data_author()
+    return render_template('author.html', author=author)
 
 @app.route('/movies/category/<int:category_id>')
 def show_movies_by_category(category_id):
@@ -120,9 +83,9 @@ def get_category_name(category_id):
 def home():
     return render_template('home.html')
 
-@app.route("/aggiungiFilm")
-def aggiungi_film():
-    return render_template("aggiungiFilm.html")
+@app.route("/aggiungiLibro")
+def aggiungi_Libro():
+    return render_template("aggiungiLibro.html")
 
 @app.route('/add/data/category', methods=['POST'])
 def add_data_category():
@@ -132,7 +95,7 @@ def add_data_category():
     # Ottieni i valori dai dati JSON
     nome = dati_json.get('nome')
     query = "INSERT INTO categories(category_name) VALUES(%s)"
-    execute_query2(query, (nome,))
+    # execute_query2(query, (nome,))
     # Restituisci una risposta
 
     return f"Il nome {nome} è stato aggiunto alle categorie."
