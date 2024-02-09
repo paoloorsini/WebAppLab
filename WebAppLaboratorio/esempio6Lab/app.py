@@ -63,17 +63,6 @@ def get_singleshows_data(id):
     shows = execute_query(query, (id,))
     return jsonify({'shows': shows})
 
-@app.route('/data/shows/category/<category_name>', methods=['GET'])
-def get_shows_by_category(category_name):
-    query = """
-        SELECT s.*
-        FROM shows s
-        JOIN showcategories sc ON s.show_id = sc.show_id
-        JOIN categories c ON sc.category_id = c.category_id
-        WHERE c.category_name = %s
-    """
-    shows = execute_query(query, (category_name,))
-    return jsonify({'shows': shows})
 
 @app.route('/data/shows/category/id/<category_id>', methods=['GET'])
 def get_shows_by_category_id(category_id):
@@ -97,6 +86,18 @@ def show_books():
 def show_authors():
     categories = get_data_authors()
     return render_template('categories.html', categories=authors)
+
+@app.route('/data/shows/category/<category_name>', methods=['GET'])
+def get_shows_by_category(category_name):
+    query = """
+        SELECT s.*
+        FROM shows s
+        JOIN showcategories sc ON s.show_id = sc.show_id
+        JOIN categories c ON sc.category_id = c.category_id
+        WHERE c.category_name = %s
+    """
+    shows = execute_query(query, (category_name,))
+    return jsonify({'shows': shows})
 
 @app.route('/movies/category/<int:category_id>')
 def show_movies_by_category(category_id):

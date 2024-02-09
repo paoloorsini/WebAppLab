@@ -28,19 +28,48 @@ def execute_query(query, params=None):
 
 app = Flask(__name__)
 
-# Rotte dell'API
+@app.route('/data/books', methods=['GET'])
+def get_data_books():
+    query = "SELECT title FROM books"
+    items = execute_query(query)
+    return items
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+@app.route('/books')
+def show_books():
+    books = get_data_books()
+    return render_template('books.html', books=books)
+
 @app.route('/data/author', methods=['GET'])
 def get_data_author():
     query = "SELECT author FROM books"
     items = execute_query(query)
     return items
     # return jsonify({'items': items})
+@app.route('/author')
+def show_author():
+    author = get_data_author()
+    return render_template('authors.html', author=author)
 
-@app.route('/data/books', methods=['GET'])
-def get_data_books():
-    query = "SELECT title FROM books"
+
+@app.route('/data/loans', methods=['GET'])
+def get_data_loans():
+    query = """SELECT loans.id_loan, books.title, users.name, loans.status FROM `loans` 
+            JOIN books ON books.id_books = loans.id_books
+            JOIN users ON users.id_user=loans.id_user;"""
     items = execute_query(query)
     return items
+@app.route('/loans')
+def show_loans():
+    loans = get_data_loans()
+    return render_template('loans.html', loans=loans)
+
+
+
+
+
 
 #singolo show in base all'id passato
 @app.route('/data/shows/<int:id>', methods=['GET'])
@@ -49,17 +78,26 @@ def get_singleshows_data(id):
     shows = execute_query(query, (id,))
     return jsonify({'shows': shows})
 
-@app.route('/data/shows/category/<category_name>', methods=['GET'])
-def get_shows_by_category(category_name):
+@app.route('/data/books/author/<author_name>', methods=['GET'])
+def get_books_by_author(author_name):
     query = """
-        SELECT s.*
-        FROM shows s
-        JOIN showcategories sc ON s.show_id = sc.show_id
-        JOIN categories c ON sc.category_id = c.category_id
-        WHERE c.category_name = %s
+        SELECT title
+        FROM books
+        WHERE author = %s
     """
-    shows = execute_query(query, (category_name,))
-    return jsonify({'shows': shows})
+    books = execute_query(query, (author_name,))
+    print(books)
+    return jsonify({'title': books})
+
+@app.route('/books/author/<author_name>')
+def show_books_by_author(author_name):
+    # Recupera tutti i libri associati all' autore specificato
+    books_data_response = get_books_by_author(author_name)
+    # Carica il contenuto JSON come un dizionario Python
+    data = json.loads(books_data_response.get_data(as_text=True))
+    # Estrai la lista di books
+    author = data['title']
+    return render_template('book_authors.html', author=author)
 
 @app.route('/data/shows/category/id/<category_id>', methods=['GET'])
 def get_shows_by_category_id(category_id):
@@ -74,30 +112,6 @@ def get_shows_by_category_id(category_id):
     return jsonify({'shows': shows})
     # return shows
 
-@app.route('/books')
-def show_books():
-    books = get_data_books()
-    return render_template('books.html', books=books)
-
-@app.route('/loans')
-def show_loans():
-    loans = get_data_loans()
-    return render_template('loans.html', loans=loans)
-
-@app.route('/data/loans', methods=['GET'])
-def get_data_loans():
-    query = """SELECT loans.id_loan, books.title, users.name, loans.status FROM `loans` 
-            JOIN books ON books.id_books = loans.id_books
-            JOIN users ON users.id_user=loans.id_user;"""
-    items = execute_query(query)
-    return items
-
-
-
-# @app.route('/author')
-# def show_author():
-#     author = get_data_author()
-#     return render_template('author.html', author=author)
 
 @app.route('/movies/category/<int:category_id>')
 def show_movies_by_category(category_id):
@@ -117,9 +131,7 @@ def get_category_name(category_id):
 
 
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+
 
 @app.route("/aggiungiLibro")
 def aggiungi_Libro():
