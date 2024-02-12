@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invio Dati</title>
+</head>
+<body>
+    <h2>Inserisci i tuoi dati:</h2>
+    <form action="/add/data/category" method="post">
+        <label for="nome">Nome nuova categoria:</label>
+        <input type="text" id="nome" name="nome"><br><br>
+
+
+
+
+    </form>
+
+    <button onclick="inviaDatiJSON()">Invia dati JSON</button>
+
+    <script>
+        function inviaDatiJSON() {
+            // Ottieni i dati dal form
+            var nome_ = document.getElementById('nome').value;
+
+
+            // Costruisci l'oggetto JSON
+            var datiJSON = {
+                nome: nome_,
+
+            };
+
+            // Esegui la richiesta POST con i dati JSON
+            fetch('/add/data/category', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datiJSON)
+            });
+        }
+    </script>
+</body>
+</html>
