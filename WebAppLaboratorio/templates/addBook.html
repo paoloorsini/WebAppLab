@@ -7,8 +7,8 @@
 </head>
 <body>
     <h2>Inserisci i tuoi dati:</h2>
-    <form action="/add/data/category" method="post">
-        <label for="nome">Nome nuova categoria:</label>
+    <form action="/add/data/book" method="post">
+        <label for="nome">Nome nuovo libro:</label>
         <input type="text" id="nome" name="nome"><br><br>
 
 
@@ -31,7 +31,7 @@
             };
 
             // Esegui la richiesta POST con i dati JSON
-            fetch('/add/data/category', {
+            fetch('/add/data/book', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
