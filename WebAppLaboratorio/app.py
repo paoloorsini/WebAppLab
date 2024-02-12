@@ -73,11 +73,7 @@ def show_loans():
 
 
 #singolo show in base all'id passato
-@app.route('/data/shows/<int:id>', methods=['GET'])
-def get_singleshows_data(id):
-    query = "SELECT * FROM shows WHERE show_id = %s"
-    shows = execute_query(query, (id,))
-    return jsonify({'shows': shows})
+
 
 @app.route('/data/books/author/<author_name>', methods=['GET'])
 def get_books_by_author(author_name):
@@ -87,8 +83,8 @@ def get_books_by_author(author_name):
         WHERE author = %s
     """
     books = execute_query(query, (author_name,))
-    print(books)
-    return jsonify({'title': books})
+    # print(books)
+    return jsonify({'books': books})
 
 @app.route('/books/author/<author_name>')
 def show_books_by_author(author_name):
@@ -97,11 +93,23 @@ def show_books_by_author(author_name):
     # Carica il contenuto JSON come un dizionario Python
     data = json.loads(books_data_response.get_data(as_text=True))
     # Estrai la lista di books
-    author = data['title']
+    print(data)
+    author = data['books']
     print(author)
     return render_template('book_authors.html', author=author)
     # books = data.get('books', [])
     # return render_template('book_authors.html', books=books, author=author_name)
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/data/shows/category/id/<category_id>', methods=['GET'])
 def get_shows_by_category_id(category_id):
@@ -153,6 +161,12 @@ def add_data_book():
     # Restituisci una risposta
 
     return f"Il libro {nome} è stato aggiunto ai libri."
+
+@app.route('/data/shows/<int:id>', methods=['GET'])
+def get_singleshows_data(id):
+    query = "SELECT * FROM shows WHERE show_id = %s"
+    shows = execute_query(query, (id,))
+    return jsonify({'shows': shows})
 
 
 if __name__ == '__main__':
