@@ -51,7 +51,7 @@ def get_data_author():
 @app.route('/author')
 def show_author():
     author = get_data_author()
-    return render_template('authors.html', author=author)
+    return render_template('authors3.html', author=author)
 
 
 @app.route('/data/loans', methods=['GET'])
@@ -81,13 +81,30 @@ def get_singleshows_data(id):
 @app.route('/data/books/author/<author_name>', methods=['GET'])
 def get_books_by_author(author_name):
     query = """
-        SELECT title
+        SELECT *
         FROM books
         WHERE author = %s
     """
     books = execute_query(query, (author_name,))
     print(books)
-    return jsonify({'title': books})
+    return jsonify({'books': books})
+
+# def get_books_by_author2(author_name):
+#     query = """
+#         SELECT *
+#         FROM books
+#         WHERE author = %s
+#     """
+#     books = execute_query(query, (author_name,))
+#     print(books)
+#     return books
+
+# @app.route('/books2/author/<author_name>')
+# def show_books_by_author2(author_name):
+#     # Recupera tutti i libri associati all' autore specificato
+#     author = get_books_by_author(author_name)
+#     print(author)
+#     return render_template('book_authors.html', author=author)
 
 @app.route('/books/author/<author_name>')
 def show_books_by_author(author_name):
@@ -96,12 +113,8 @@ def show_books_by_author(author_name):
     # Carica il contenuto JSON come un dizionario Python
     data = json.loads(books_data_response.get_data(as_text=True))
     # Estrai la lista di books
-    print(data)
     author = data['books']
-    print(author)
     return render_template('book_authors.html', author=author)
-    # books = data.get('books', [])
-    # return render_template('book_authors.html', books=books, author=author_name)
 
 @app.route('/data/shows/category/id/<category_id>', methods=['GET'])
 def get_shows_by_category_id(category_id):

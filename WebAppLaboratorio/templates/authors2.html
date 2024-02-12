@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authors</title>
+    <style>
+        /* Stile per il popup */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid black;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        /* Stile per l'overlay modale */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999; /* Posizionare l'overlay sotto il popup */
+        }
+    </style>
+</head>
+<body>
+    <h1>Authors</h1>
+    <ul class="list-group mt-3">
+        {% for elem in author %}
+            <li class="list-group-item">
+                <a href="#" onclick="showPopup('{{ elem.author }}')">{{ elem.author }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Overlay modale -->
+    <div id="modalOverlay" class="modal-overlay" onclick="hidePopup()"></div>
+
+    <!-- Popup -->
+    <div id="authorPopup" class="modal">
+        <h2 id="authorName"></h2>
+        <!-- Altri dati dell'autore -->
+        <button onclick="hidePopup()">Chiudi</button>
+    </div>
+<script>
+        function showPopup(authorName) {
+            // Ottieni il riferimento al popup e all'elemento per visualizzare il nome dell'autore
+            var popup = document.getElementById('authorPopup');
+            var authorNameElement = document.getElementById('authorName');
+            var overlay = document.getElementById('modalOverlay');
+
+            // Aggiorna il contenuto del popup con il nome dell'autore
+            authorNameElement.textContent = authorName;
+
+            // Mostra il popup e l'overlay
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function hidePopup() {
+            // Nascondi il popup e l'overlay
+            var popup = document.getElementById('authorPopup');
+            var overlay = document.getElementById('modalOverlay');
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

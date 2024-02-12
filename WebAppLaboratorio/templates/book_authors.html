@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-
+<div class="container mt-5 text-center">
+        <h1>Libri dell'Autore</h1>
+        <ul class="list-group mt-3">
+            {% for elem in author %}
+                <li class="list-group-item">{{ elem.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
