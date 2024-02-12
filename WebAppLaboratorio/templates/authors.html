@@ -12,9 +12,7 @@
         <h1>Tutti gli Autori</h1>
         <ul class="list-group mt-3">
             {% for elem in author %}
-                <li class="list-group-item">
-                    <a href="{{ url_for('show_books_by_author', author_name = author) }}">{{ elem.author }}</a>
-                </li>
+                <li class="list-group-item">{{ elem.author }}</li>
             {% endfor %}
         </ul>
     </div>

@@ -37,7 +37,6 @@ def get_data_books():
 @app.route('/')
 def home():
     return render_template('home.html')
-
 @app.route('/books')
 def show_books():
     books = get_data_books()
@@ -73,18 +72,22 @@ def show_loans():
 
 
 #singolo show in base all'id passato
-
+@app.route('/data/shows/<int:id>', methods=['GET'])
+def get_singleshows_data(id):
+    query = "SELECT * FROM shows WHERE show_id = %s"
+    shows = execute_query(query, (id,))
+    return jsonify({'shows': shows})
 
 @app.route('/data/books/author/<author_name>', methods=['GET'])
 def get_books_by_author(author_name):
     query = """
-        SELECT *
+        SELECT title
         FROM books
         WHERE author = %s
     """
     books = execute_query(query, (author_name,))
-    # print(books)
-    return jsonify({'books': books})
+    print(books)
+    return jsonify({'title': books})
 
 @app.route('/books/author/<author_name>')
 def show_books_by_author(author_name):
@@ -99,18 +102,6 @@ def show_books_by_author(author_name):
     return render_template('book_authors.html', author=author)
     # books = data.get('books', [])
     # return render_template('book_authors.html', books=books, author=author_name)
-
-
- 
-
-
-
-
-
-
-
-
-
 
 @app.route('/data/shows/category/id/<category_id>', methods=['GET'])
 def get_shows_by_category_id(category_id):
@@ -145,29 +136,22 @@ def get_category_name(category_id):
 
 
 
-
 @app.route("/aggiungiLibro")
 def aggiungi_Libro():
-    return render_template("addBook.html")
+    return render_template("aggiungiLibro.html")
 
-@app.route('/add/data/book', methods=['POST'])
-def add_data_book():
+@app.route('/add/data/category', methods=['POST'])
+def add_data_category():
     # Estrai i dati JSON dalla richiesta
     dati_json = request.json
 
     # Ottieni i valori dai dati JSON
     nome = dati_json.get('nome')
-    query = "INSERT INTO books(title) VALUES(%s)"
+    query = "INSERT INTO categories(category_name) VALUES(%s)"
     # execute_query2(query, (nome,))
     # Restituisci una risposta
 
-    return f"Il libro {nome} è stato aggiunto ai libri."
-
-@app.route('/data/shows/<int:id>', methods=['GET'])
-def get_singleshows_data(id):
-    query = "SELECT * FROM shows WHERE show_id = %s"
-    shows = execute_query(query, (id,))
-    return jsonify({'shows': shows})
+    return f"Il nome {nome} è stato aggiunto alle categorie."
 
 
 if __name__ == '__main__':

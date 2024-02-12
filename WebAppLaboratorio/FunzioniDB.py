@@ -114,7 +114,7 @@ def inserisci_dati_libri(connection,pw,db):
         lettore = list(lettore)
         for elem in lettore:
             q = """INSERT INTO books(title,author,year) VALUES(%s,%s,%s);"""
-            place = (elem[0], elem[1].strip(), elem[2].strip())
+            place = (elem[0], elem[1], elem[2])
             execute_query_place(connection, q, place)
 
 def inserisci_dati_prestiti(connection,pw,db):
