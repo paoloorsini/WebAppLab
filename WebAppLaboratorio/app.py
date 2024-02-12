@@ -96,8 +96,13 @@ def show_books_by_author(author_name):
     # Carica il contenuto JSON come un dizionario Python
     data = json.loads(books_data_response.get_data(as_text=True))
     # Estrai la lista di books
-    author = data['title']
-    return render_template('book_authors.html', author=author)
+    #author = data['title']
+    #return render_template('book_authors.html', author=author)
+    books = data.get('books', [])
+    return render_template('book_authors.html', books=books, author=author_name)
+
+
+from flask import render_template
 
 @app.route('/data/shows/category/id/<category_id>', methods=['GET'])
 def get_shows_by_category_id(category_id):
