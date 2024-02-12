@@ -143,10 +143,22 @@ def show_movies_by_category(category_id):
     movies = data['shows']
     return render_template('movie_by_category.html', movies=movies)
 
-# Funzione per ottenere il nome della categoria
-def get_category_name(category_id):
 
-    pass
+@app.route('/add/data_book', methods=['POST'])
+def add_data_book():
+    # Estrai i dati JSON dalla richiesta
+    dati_json = request.json
+
+    # Ottieni i valori dai dati JSON
+    title = dati_json.get('title')
+    author = dati_json.get('author')
+    year = dati_json.get('year')
+
+    query = "INSERT INTO books('title','author','year') VALUES(%s,%s,%s)"
+    execute_query(query, (title, author, year))
+
+    return f"Il libro {title} è stato aggiunto alla libreria."
+
 
 
 
