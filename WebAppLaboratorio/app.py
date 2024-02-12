@@ -37,6 +37,7 @@ def get_data_books():
 @app.route('/')
 def home():
     return render_template('home.html')
+
 @app.route('/books')
 def show_books():
     books = get_data_books()
@@ -81,7 +82,7 @@ def get_singleshows_data(id):
 @app.route('/data/books/author/<author_name>', methods=['GET'])
 def get_books_by_author(author_name):
     query = """
-        SELECT title
+        SELECT *
         FROM books
         WHERE author = %s
     """
@@ -97,7 +98,10 @@ def show_books_by_author(author_name):
     data = json.loads(books_data_response.get_data(as_text=True))
     # Estrai la lista di books
     author = data['title']
+    print(author)
     return render_template('book_authors.html', author=author)
+    # books = data.get('books', [])
+    # return render_template('book_authors.html', books=books, author=author_name)
 
 @app.route('/data/shows/category/id/<category_id>', methods=['GET'])
 def get_shows_by_category_id(category_id):

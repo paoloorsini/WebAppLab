@@ -80,7 +80,7 @@ def get_shows_by_category_id(category_id):
 @app.route('/movies')
 def show_books():
     movies = get_data_movies()
-    return render_template('movies.html', movies=books)
+    return render_template('movies.html', movies=movies)
 
 @app.route('/authors')
 def show_authors():
