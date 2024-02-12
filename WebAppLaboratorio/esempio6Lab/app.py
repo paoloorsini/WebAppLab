@@ -85,7 +85,7 @@ def show_books():
 @app.route('/authors')
 def show_authors():
     categories = get_data_authors()
-    return render_template('categories.html', categories=authors)
+    return render_template('categories.html', categories=categories)
 
 @app.route('/data/shows/category/<category_name>', methods=['GET'])
 def get_shows_by_category(category_name):
