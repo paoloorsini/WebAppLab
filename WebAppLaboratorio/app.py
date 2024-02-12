@@ -135,20 +135,20 @@ def get_category_name(category_id):
 
 @app.route("/aggiungiLibro")
 def aggiungi_Libro():
-    return render_template("aggiungiLibro.html")
+    return render_template("addBook.html")
 
-@app.route('/add/data/category', methods=['POST'])
-def add_data_category():
+@app.route('/add/data/book', methods=['POST'])
+def add_data_book():
     # Estrai i dati JSON dalla richiesta
     dati_json = request.json
 
     # Ottieni i valori dai dati JSON
     nome = dati_json.get('nome')
-    query = "INSERT INTO categories(category_name) VALUES(%s)"
+    query = "INSERT INTO books(title) VALUES(%s)"
     # execute_query2(query, (nome,))
     # Restituisci una risposta
 
-    return f"Il nome {nome} è stato aggiunto alle categorie."
+    return f"Il libro {nome} è stato aggiunto ai libri."
 
 
 if __name__ == '__main__':
