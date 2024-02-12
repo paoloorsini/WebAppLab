@@ -111,6 +111,8 @@ def show_books_by_author(author_name):
 
 
 
+
+
 @app.route('/data/shows/category/id/<category_id>', methods=['GET'])
 def get_shows_by_category_id(category_id):
     query = """
