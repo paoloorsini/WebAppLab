@@ -1,4 +1,4 @@
-from FunzioniDB import *
+from WebAppLaboratorio.db.FunzioniDB import *
 
 def create_tables(connection):
     create_books = '''

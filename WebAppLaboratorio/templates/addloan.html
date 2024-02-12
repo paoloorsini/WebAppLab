@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AddLoan</title>
+</head>
+<body>
+    <h2>Inserisci i dati del prestito:</h2>
+    <form action="/add/data/loans" method="post">
+        <label for="libro_id">ID Libro:</label>
+        <input type="text" id="libro_id" name="libro_id"><br><br>
+
+        <label for="utente_id">ID Utente:</label>
+        <input type="text" id="utente_id" name="utente_id"><br><br>
+ <input type="submit" value="Inserisci">
+    </form>
+
+<!--    <button onclick="inviaDatiJSON()">Invia dati JSON</button>-->
+
+<!--    <script>-->
+<!--        function inviaDatiJSON() {-->
+<!--            // Ottieni i dati dal form-->
+<!--            var nome_ = document.getElementById('nome').value;-->
+
+
+<!--            // Costruisci l'oggetto JSON-->
+<!--            var datiJSON = {-->
+<!--                nome: nome_,-->
+
+<!--            };-->
+
+<!--            // Esegui la richiesta POST con i dati JSON-->
+<!--            fetch('/add/data/category', {-->
+<!--                method: 'POST',-->
+<!--                headers: {-->
+<!--                    'Content-Type': 'application/json'-->
+<!--                },-->
+<!--                body: JSON.stringify(datiJSON)-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
+</body>
+</html>

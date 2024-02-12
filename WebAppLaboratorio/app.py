@@ -28,15 +28,18 @@ def execute_query(query, params=None):
 
 app = Flask(__name__)
 
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+
 @app.route('/data/books', methods=['GET'])
 def get_data_books():
     query = "SELECT title FROM books"
     items = execute_query(query)
     return items
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+
 @app.route('/books')
 def show_books():
     books = get_data_books()
@@ -65,7 +68,6 @@ def get_data_loans():
 def show_loans():
     loans = get_data_loans()
     return render_template('loans.html', loans=loans)
-
 
 
 
@@ -149,22 +151,19 @@ def get_category_name(category_id):
 
 
 
-@app.route("/aggiungiLibro")
-def aggiungi_Libro():
-    return render_template("aggiungiLibro.html")
+@app.route("/addloans")
+def add_loan():
+    addloan = add_data_loan()
+    return render_template("addloan.html")
 
-@app.route('/add/data/category', methods=['POST'])
-def add_data_category():
-    # Estrai i dati JSON dalla richiesta
+@app.route('/add/data/loans', methods=['POST'])
+def add_data_loan():
     dati_json = request.json
-
-    # Ottieni i valori dai dati JSON
-    nome = dati_json.get('nome')
-    query = "INSERT INTO categories(category_name) VALUES(%s)"
-    # execute_query2(query, (nome,))
-    # Restituisci una risposta
-
-    return f"Il nome {nome} è stato aggiunto alle categorie."
+    libro_id = dati_json.get('id_books')
+    utente_id = dati_json.get('id_user')
+    query = "INSERT INTO loans (book_id, user_id) VALUES (%s, %s)"
+    values = (libro_id, utente_id)
+    execute_query(query, values)
 
 
 if __name__ == '__main__':
