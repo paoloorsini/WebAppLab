@@ -26,6 +26,18 @@ def execute_query(query, params=None):
     connection.close()
     return result
 
+def execute_query_insert(query, params=None):
+    connection = create_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    if params:
+        cursor.execute(query, params)
+    else:
+        cursor.execute(query)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -178,22 +190,31 @@ def add_data_book():
 #     execute_query(query, values)
 
 
+@app.route('/addloan', methods=['GET'])
 def add_loan():
     return render_template("addloan.html")
 
 @app.route('/add/data/loans', methods=['POST'])
 def add_data_loan():
     try:
-        dati_json = request.json
-        libro_id = dati_json.get('id_books')
-        utente_id = dati_json.get('id_user')
+        if request.json:
+            dati_json = request.json
+            libro_id = dati_json.get('id_books')
+            utente_id = dati_json.get('id_user')
+            status = dati_json.get('status')
+        elif request.form:
+            form_data = request.form
+
+            libro_id = form_data['id_books']
+            utente_id = form_data['id_user']
+            status = form_data['status']
 
         if libro_id is None or utente_id is None:
             raise ValueError("I dati non sono validi")
 
-        query = "INSERT INTO loans (book_id, user_id) VALUES (%s, %s)"
-        values = (libro_id, utente_id)
-        execute_query(query, values)
+        query = "INSERT INTO loans (id_books, id_user, status) VALUES (%s, %s, %s)"
+        values = (libro_id, utente_id, status)
+        execute_query_insert(query, values)
 
         return jsonify({"message": "Prestito inserito con successo"})
 

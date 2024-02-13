@@ -6,8 +6,25 @@
     <title>AddLoan</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">LooksForBooks</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        <a class="nav-link" href="/books">Libri</a>
+        <a class="nav-link" href="/author">Autori</a>
+        <a class="nav-link" href="/loans">Prestiti</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
     <h2>Inserisci i dati del prestito:</h2>
-    <form action="/add/data/loans" method="post" onsubmit="return validateForm()">
+    <form action="/add/data/loans" method="post">
         <label for="libro_id">ID Libro (numerico):</label>
         <input type="text" id="libro_id" name="libro_id" required pattern="\d+">
         <br><br>

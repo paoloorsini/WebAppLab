@@ -8,13 +8,30 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">LooksForBooks</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        <a class="nav-link" href="/books">Libri</a>
+        <a class="nav-link" href="/author">Autori</a>
+        <a class="nav-link" href="/loans">Prestiti</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
     <div class="container mt-5 text-center">
         <h1>Tutti i Prestiti</h1>
         <div class="d-grid gap-2 d-md-block">
   <div class="container">
   <div class="row">
     <button class="btn btn-success btn-lg btn-block" type="button">
-      <a href="add/data/loans" style="color: inherit; text-decoration: none;">Aggiungi Prestito</a>
+      <a href="/addloan" style="color: inherit; text-decoration: none;">Aggiungi Prestito</a>
     </button>
   </div>
 </div>
@@ -67,3 +84,4 @@
 <!--  </div>-->
 <!--</div>-->
 <!--    {% endfor %}-->
+
