@@ -163,19 +163,42 @@ def add_data_book():
 
 
 
-@app.route("/addloans")
+# @app.route("/addloans")
+# def add_loan():
+#     addloan = add_data_loan()
+#     return render_template("addloan.html")
+#
+# @app.route('/add/data/loans', methods=['POST'])
+# def add_data_loan():
+#     dati_json = request.json
+#     libro_id = dati_json.get('id_books')
+#     utente_id = dati_json.get('id_user')
+#     query = "INSERT INTO loans (book_id, user_id) VALUES (%s, %s)"
+#     values = (libro_id, utente_id)
+#     execute_query(query, values)
+
+
 def add_loan():
-    addloan = add_data_loan()
     return render_template("addloan.html")
 
 @app.route('/add/data/loans', methods=['POST'])
 def add_data_loan():
-    dati_json = request.json
-    libro_id = dati_json.get('id_books')
-    utente_id = dati_json.get('id_user')
-    query = "INSERT INTO loans (book_id, user_id) VALUES (%s, %s)"
-    values = (libro_id, utente_id)
-    execute_query(query, values)
+    try:
+        dati_json = request.json
+        libro_id = dati_json.get('id_books')
+        utente_id = dati_json.get('id_user')
+
+        if libro_id is None or utente_id is None:
+            raise ValueError("I dati non sono validi")
+
+        query = "INSERT INTO loans (book_id, user_id) VALUES (%s, %s)"
+        values = (libro_id, utente_id)
+        execute_query(query, values)
+
+        return jsonify({"message": "Prestito inserito con successo"})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
@@ -183,4 +206,3 @@ if __name__ == '__main__':
 
 
 
-# aggiungere nella home page un bottone aggiungi film che se cliccato mi manda in una nuova pagina web con un form per inserire il film
