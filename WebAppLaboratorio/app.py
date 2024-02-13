@@ -1,5 +1,5 @@
 import json
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 import mysql.connector
 
 db_config = {
@@ -39,10 +39,11 @@ def execute_query_insert(query, params=None):
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'il_tuo_valore_segreto'
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home2.html')
 
 
 @app.route('/data/books', methods=['GET'])
@@ -158,37 +159,30 @@ def show_movies_by_category(category_id):
 
 @app.route('/add/data_book', methods=['POST'])
 def add_data_book():
-    # Estrai i dati JSON dalla richiesta
-    dati_json = request.json
+    content_type = request.headers.get('Content-Type')
 
-    # Ottieni i valori dai dati JSON
-    title = dati_json.get('title')
-    author = dati_json.get('author')
-    year = dati_json.get('year')
+    if content_type == 'application/json':
+        data = request.json
+        title = data.get('title')
+        author = data.get('author')
+        year = data.get('year')
+    elif content_type == 'application/x-www-form-urlencoded':
+        data = request.form
+        title = data['title']
+        author = data['author']
+        year = data['year']
+    else:
+        return jsonify({'error': 'Unsupported Content-Type'}), 415
+    query = "INSERT INTO books (title, author, year) VALUES (%s, %s, %s)"
+    values = (title, author, year)
+    execute_query_insert(query, values)
 
-    query = "INSERT INTO books('title','author','year') VALUES(%s,%s,%s)"
-    execute_query(query, (title, author, year))
+    flash(f"Il libro {title} di {author} è stato aggiunto alla libreria.")
+    return redirect(url_for('home'))
 
-    return f"Il libro {title} è stato aggiunto alla libreria."
-
-
-
-
-
-# @app.route("/addloans")
-# def add_loan():
-#     addloan = add_data_loan()
-#     return render_template("addloan.html")
-#
-# @app.route('/add/data/loans', methods=['POST'])
-# def add_data_loan():
-#     dati_json = request.json
-#     libro_id = dati_json.get('id_books')
-#     utente_id = dati_json.get('id_user')
-#     query = "INSERT INTO loans (book_id, user_id) VALUES (%s, %s)"
-#     values = (libro_id, utente_id)
-#     execute_query(query, values)
-
+@app.route('/addbook')
+def add_book():
+    return render_template("addbook.html")
 
 @app.route('/addloan', methods=['GET'])
 def add_loan():
@@ -204,7 +198,6 @@ def add_data_loan():
             status = dati_json.get('status')
         elif request.form:
             form_data = request.form
-
             libro_id = form_data['id_books']
             utente_id = form_data['id_user']
             status = form_data['status']

@@ -8,20 +8,18 @@
 </head>
 <body>
 
-<div class="container">
-    <h2>Aggiungi Libro</h2>
-    <form action="/add/data/books" method="post">
+    <form action="/add/data_book" method="post">
         <div class="form-group">
             <label for="title">Titolo:</label>
-            <input type="text" class="form-control" name="title" required>
+            <input type="text" class="form-control" id="title" name="title" required>
         </div>
         <div class="form-group">
             <label for="author">Autore:</label>
-            <input type="text" class="form-control" name="author" required>
+            <input type="text" class="form-control" id="author" name="author" required>
         </div>
         <div class="form-group">
             <label for="year">Anno di pubblicazione:</label>
-            <input type="number" class="form-control" name="year" required>
+            <input type="number" class="form-control" id="year" name="year" required>
         </div>
         <button type="submit" class="btn btn-primary">Aggiungi Libro</button>
     </form>

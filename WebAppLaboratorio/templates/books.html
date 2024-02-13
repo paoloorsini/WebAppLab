@@ -26,12 +26,23 @@
 </nav>
     <div class="container mt-5 text-center">
         <h1>Tutti i Libri</h1>
+
+<div class="container">
+    <h2>Aggiungi Libro</h2>
+     <div class="container">
+  <div class="row">
+    <button class="btn btn-success btn-lg btn-block" type="button">
+      <a href="/addbook" style="color: inherit; text-decoration: none;">Aggiungi Libro</a>
+    </button>
+  </div>
+</div>
         <ul class="list-group mt-3">
             {% for elem in books %}
                 <li class="list-group-item">{{ elem.title }}</li>
             {% endfor %}
         </ul>
     </div>
+</div>
     <!-- Includi Bootstrap JS (opzionale) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
